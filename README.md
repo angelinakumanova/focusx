@@ -61,6 +61,6 @@ FocusX follows a **microservices architecture**, where each backend service is r
 Thank you for checking out FocusX!  
 I hope this project inspires you to boost your productivity and achieve your goals.  
 
-If you have any feedback, questions, or want to collaborate, feel free to reach out!
+If you have any feedback or questions, feel free to reach out!
 
 **Happy focusing! 🚀**
