@@ -26,3 +26,39 @@ It pairs focused work sessions with progress tracking and personalized rewards, 
 ### ♦️ Deployment & DevOps
 - **Docker** - containerization for consistent environments and deployment
 - **Railway** - hosting platform for backend and frontend
+
+## 🚀 Features
+
+- **Customizable Pomodoro timer** ⏳ with adjustable work and break intervals to boost productivity.  
+- **Goal tracking system** 🎯 to monitor progress on your personal or professional objectives.  
+- **Reward system** 🎁 where users set and earn personalized rewards for achieving milestones.  
+- **Secure authentication** 🔐 using JWT for safe access and data privacy.  
+- **Microservices architecture** with Apache Kafka enabling real-time communication between services.  
+- **Responsive and fast UI** built with React and TypeScript for smooth user experience.
+
+## 🏗️ Architecture Overview
+
+FocusX follows a **microservices architecture**, where each backend service is responsible for a specific domain, communicating asynchronously via **Apache Kafka** for scalability and reliability.
+
+### 🔸 Backend
+- Multiple Spring Boot microservices written in Java 21.
+- MongoDB is used as the primary database for storing user data, goals, and rewards.
+- Kafka handles real-time messaging between services, enabling event-driven updates.
+
+### 🔸 Frontend
+- A React + TypeScript single-page application built with Vite.
+- Connects to backend microservices through REST APIs.
+- Uses JWT tokens for secure authentication and authorization.
+
+### 🔸 Deployment
+- All services are containerized with Docker for consistent environments.
+- Hosted on Railway, providing seamless deployment and scaling.
+
+## 🙏 Thank You!
+
+Thank you for checking out FocusX!  
+I hope this project inspires you to boost your productivity and achieve your goals.  
+
+If you have any feedback, questions, or want to collaborate, feel free to reach out!
+
+**Happy focusing! 🚀**
