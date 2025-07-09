@@ -1,4 +1,4 @@
-# FocusX
+# FocusX <img src="assets/focusx-logo.png" alt="FocusX Logo" width="50" height="40" align="left" style="padding-right: 10px;"/>
 **Stay focused. Get things done.**
 
 🔗 [Live Demo](https://focusx.up.railway.app/)
