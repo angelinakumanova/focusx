@@ -44,7 +44,7 @@ FocusX follows a **microservices architecture**, where each backend service is r
 
 ### 🔸 Backend
 - Multiple Spring Boot microservices written in Java 21.
-- MongoDB is used as the primary database for storing user data, goals, and rewards.
+- MongoDB is used as the primary database for storing user data, goals, and sessions.
 - Kafka handles real-time messaging between services, enabling event-driven updates.
 
 ### 🔸 Frontend
