@@ -24,6 +24,7 @@ It pairs focused work sessions with progress tracking and personalized rewards, 
 - Microservice Architecture
 - Apache Kafka - for asynchronous communication
 - MongoDB - NoSQL database
+- Redis - caching to reduce database load
 
 ### ♦️ Deployment & DevOps
 - **Docker** - containerization for consistent environments and deployment
