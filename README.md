@@ -3,7 +3,7 @@
 
 ![App Showcase](assets/focusx.gif)
 
-🔗 [Live Demo](https://focusx.up.railway.app/)
+🔗 [Live Demo](https://focusx-496x.onrender.com/)
 
 FocusX is a full-stack productivity web app designed to help users stay focused by gamifying tasks.  
 It pairs focused work sessions with progress tracking and personalized rewards, making productivity feel more intentional and fun.
