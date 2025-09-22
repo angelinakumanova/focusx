@@ -28,7 +28,7 @@ It pairs focused work sessions with progress tracking and personalized rewards, 
 
 ### ♦️ Deployment & DevOps
 - **Docker** - containerization for consistent environments and deployment
-- **Railway** - hosting platform for backend and frontend
+- **Render** - hosting platform for backend and frontend
 
 ## 🚀 Features
 
