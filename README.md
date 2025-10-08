@@ -55,7 +55,7 @@ FocusX follows a **microservices architecture**, where each backend service is r
 
 ### 🔸 Deployment
 - All services are containerized with Docker for consistent environments.
-- Hosted on Railway, providing seamless deployment and scaling.
+- Hosted on Render, providing seamless deployment and scaling.
 
 ## 🙏 Thank You!
 
