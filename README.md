@@ -3,8 +3,6 @@
 
 ![App Showcase](assets/focusx.gif)
 
-🔗 [Live Demo](https://focusx-496x.onrender.com/)
-
 FocusX is a full-stack productivity web app designed to help users stay focused by gamifying tasks.  
 It pairs focused work sessions with progress tracking and personalized rewards, making productivity feel more intentional and fun.
 
@@ -24,11 +22,8 @@ It pairs focused work sessions with progress tracking and personalized rewards, 
 - Microservice Architecture
 - Apache Kafka - for asynchronous communication
 - MongoDB - NoSQL database
-- Redis - caching to reduce database load
-
-### ♦️ Deployment & DevOps
-- **Docker** - containerization for consistent environments and deployment
-- **Render** - hosting platform for backend and frontend
+- Redis - caching frequently accessed data to reduce database load
+- Docker - containerized services for consistent environments
 
 ## 🚀 Features
 
@@ -45,8 +40,9 @@ FocusX follows a **microservices architecture**, where each backend service is r
 
 ### 🔸 Backend
 - Multiple Spring Boot microservices written in Java 21.
-- MongoDB is used as the primary database for storing user data, goals, and sessions.
+- MongoDB is used as the primary database for storing user data, goals, sessions and notifications.
 - Kafka handles real-time messaging between services, enabling event-driven updates.
+- Redis caches frequently accessed data as to reduce DB load.
 
 ### 🔸 Frontend
 - A React + TypeScript single-page application built with Vite.
@@ -55,7 +51,6 @@ FocusX follows a **microservices architecture**, where each backend service is r
 
 ### 🔸 Deployment
 - All services are containerized with Docker for consistent environments.
-- Hosted on Render, providing seamless deployment and scaling.
 
 ## 🙏 Thank You!
 
