@@ -1,0 +1,202 @@
+services:
+  # ============================================
+  # INFRASTRUCTURE SERVICES
+  # ============================================
+  
+  # MongoDB Database
+  mongodb:
+    image: mongo:7
+    container_name: focusx-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin123
+      MONGO_INITDB_DATABASE: focusx
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - focusx-network
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: focusx-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - focusx-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Apache Kafka
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: focusx-kafka
+    hostname: kafka
+    ports:
+      - "9092:9092" # broker for containers
+      - "9093:9093" # broker for host
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://0.0.0.0:9093,CONTROLLER://kafka:29093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:9093
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CONTROLLER_QUORUM_LISTENER_NAME: CONTROLLER
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:29093
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_NUM_PARTITIONS: 3
+      CLUSTER_ID: MkU3OEVBNTcwNTJENDM2Qk
+    networks:
+      - focusx-network
+    volumes:
+      - kafka_data:/var/lib/kafka/data
+    healthcheck:
+      test: ["CMD", "kafka-broker-api-versions", "--bootstrap-server", "kafka:9092"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+
+  # ============================================
+  # BACKEND MICROSERVICES
+  # ============================================
+
+  # User Service
+  user-service:
+    image: angiek2/focusx-user-service
+    container_name: focusx-user-service
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      MONGO_URI: ${MONGO_URI}
+      MONGO_DB_NAME: ${MONGO_DB_NAME}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      KAFKA_SERVER: ${KAFKA_SERVER}
+      JWT_PRIVATE_KEY: ${JWT_PRIVATE_KEY} 
+      JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY} 
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    networks:
+      - focusx-network
+
+  # Goal Service
+  goal-service:
+    image: angiek2/focusx-goal-service
+    container_name: focusx-goal-service
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    environment:
+      MONGO_URI: ${MONGO_URI}
+      MONGO_DB_NAME: ${MONGO_DB_NAME}
+      KAFKA_SERVER: ${KAFKA_SERVER}
+      JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY} 
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    networks:
+      - focusx-network
+
+  # Session Service
+  session-service:
+    image: angiek2/focusx-session-service
+    container_name: focusx-session-service
+    restart: unless-stopped
+    ports:
+      - "8082:8082"
+    environment:
+      MONGO_URI: ${MONGO_URI}
+      MONGO_DB_NAME: ${MONGO_DB_NAME}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      KAFKA_SERVER: ${KAFKA_SERVER}
+      JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY} 
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    networks:
+      - focusx-network
+
+  # Notification Service
+  notification-service:
+    image: angiek2/focusx-notification-service
+    container_name: focusx-notification-service
+    restart: unless-stopped
+    ports:
+      - "8083:8083"
+    environment:
+      MAIL_USERNAME: ${MAIL_USERNAME}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+      MONGO_URI: ${MONGO_URI}
+      MONGO_DB_NAME: ${MONGO_DB_NAME}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      KAFKA_SERVER: ${KAFKA_SERVER}
+      JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY} 
+    depends_on:
+      kafka:
+        condition: service_healthy
+    networks:
+      - focusx-network
+
+  frontend:
+    image: angiek2/focusx-frontend:latest
+    container_name: focusx-frontend
+    restart: unless-stopped
+    ports:
+      - "5173:80"
+    depends_on:
+      - user-service
+      - goal-service
+      - session-service
+    networks:
+      - focusx-network
+
+# ============================================
+# NETWORKS
+# ============================================
+networks:
+  focusx-network:
+    driver: bridge
+
+# ============================================
+# VOLUMES (Persistent Data Storage)
+# ============================================
+volumes:
+  mongodb_data:
+  redis_data:
+  kafka_data:
