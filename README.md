@@ -64,7 +64,7 @@ FocusX follows a **microservices architecture**, where each backend service is r
 ### Step 1: Clone the Repository
 ```
 git clone https://github.com/angelinakumanova/focusx.git
-cd focusx-docker
+cd focusx
 ```
 
 ### Step 2: Configure Environment
