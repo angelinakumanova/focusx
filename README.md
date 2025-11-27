@@ -6,6 +6,13 @@
 FocusX is a full-stack productivity web app designed to help users stay focused by gamifying tasks.  
 It pairs focused work sessions with progress tracking and personalized rewards, making productivity feel more intentional and fun.
 
+## Content
+- [Tech Stack](#-tech-stack)
+- [Features](#-features)
+- [Architecture Overview](#%EF%B8%8F-architecture-overview)
+- [Installation](#installation)
+
+
 ## 🛠 Tech Stack
 
 ### ♦️ Frontend
@@ -51,6 +58,52 @@ FocusX follows a **microservices architecture**, where each backend service is r
 
 ### 🔸 Deployment
 - All services are containerized with Docker for consistent environments.
+
+## Installation
+
+### Step 1: Clone the Repository
+```
+git clone https://github.com/angelinakumanova/focusx.git
+cd focusx-docker
+```
+
+### Step 2: Configure Environment
+```
+# Copy the example environment file and edit the config settings
+cp .env.example .env
+```
+
+### Step 3: Start Application
+```
+# Start all services in detached mode
+docker-compose up -d
+
+# View logs (optional)
+docker-compose logs -f
+```
+
+### Step 4: Verify services
+```
+# Check service status
+docker-compose ps
+```
+
+Wait until all services show `healthy` status (usually 30-60 seconds).
+
+### 🌐 Accessing the Application
+Once all services are healthy:
+<br>
+**Frontend UI: http://localhost:5173**
+
+**API Documentation (Swagger)**
+
+User Service: http://localhost:8080/swagger-ui.html
+<br>
+Goal Service: http://localhost:8081/swagger-ui.html
+<br>
+Session Service: http://localhost:8082/swagger-ui.html
+<br>
+Notification Service: http://localhost:8083/swagger-ui.html
 
 ## 🙏 Thank You!
 
